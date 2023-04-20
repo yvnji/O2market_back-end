@@ -11,6 +11,7 @@ const ProductSchema = new Schema({
     },
     description: {
         type: String,
+        required: true,
     },
     price: {
         type: Number,
@@ -22,10 +23,11 @@ const ProductSchema = new Schema({
     },
     company: {
         type: String,
-    },
-    categoryType: {
-        type: Boolean,
         required: true,
+    },
+    category: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category',
     },
 });
 
