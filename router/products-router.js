@@ -26,7 +26,7 @@ router.get('/products/:category', async (req, res) => {
 });
 
 
-// 상품 클릭 시 상세정보 조회
+// 상품 클릭 시 상세정보 조회 
 router.get('/products/:id', getProduct, async (req, res) => {
     try {
         const product = req.product;
