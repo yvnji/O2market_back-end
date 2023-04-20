@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const { Products } = require('./data-access/models/products-model');
 const { Category } = require('./data-access/models/category-model');
+const { getProduct, validateProduct } = require('./middleware');
 
 const router = Router();
 
@@ -26,11 +27,11 @@ router.get('/products/:category', async (req, res) => {
 
 
 // 상품 클릭 시 상세정보 조회
-router.get('/products/:id', async (req, res) => {
+router.get('/products/:id', getProduct, async (req, res) => {
     try {
-        const product = await Products.findById(req.params.id);
+        const product = req.product;
 
-        if (!product[0]) {
+        if (!product) {
             res.status(404).json({ message: '상품이 존재하지 않습니다.' });
             return;
         }
