@@ -1,4 +1,3 @@
-// index.js
 /* mongoose와 같이 외부 시스템과 소통을 하거나 해야할 때 필요한 client 객체들을 초기화할 때 사용하는 함수들의 묶음 */
 const mongoose = require("mongoose");
 const config = require("../config");
