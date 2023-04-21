@@ -1,31 +1,39 @@
-const ProductDAO = require('./productsDAO');
-const { sanitizeObject, buildResponse } = require('./utils');
+const ProductDAO = require('../data-access');
+// const { sanitizeObject, buildResponse } = require('./utils');
 
 class ProductService {
   async getProductsByCategory(category) {
-    const products = await ProductDAO.getProductsByCategory(category);
-    if (!products) {
-      return buildResponse(null, '카테고리가 없습니다.');
+    try {
+        const products = await ProductDAO.getProductsByCategory(category);
+        return products;
+    } catch (error) {
+        throw new Error('service: 해당 카테고리의 상품 목록 조회에 실패하였습니다.');
     }
-    return buildResponse(products);
   }
 
   async getProductById(id) {
-    const product = await ProductDAO.getProductById(id);
-    if (!product) {
-      return buildResponse(null, '상품이 존재하지 않습니다.');
+    try {
+      const product = await ProductDAO.getProductById(id);
+      if (!product) {
+        throw new Error('service: 해당 상품은 존재하지 않습니다.');
+      }
+      return product;
+    } catch (error) {
+      throw new Error('service: 해당 상품의 상세정보 조회에 실패하였습니다.');
     }
-    return buildResponse(product);
   }
 
-  async createProduct(productData) {
-    const cleanedProductData = sanitizeObject(productData);
-    const newProduct = await ProductDAO.createProduct(cleanedProductData);
-    if (!newProduct) {
-      return buildResponse(null, '상품 저장에 실패하였습니다.');
+  async createProduct(product) {
+    try {
+        const newProduct = await ProductDAO.createProduct(product);
+        return newProduct;
+    } catch (error) {
+        console.error(error);
+        throw new Error('service: 상품 저장에 실패하였습니다.');
     }
-    return buildResponse(newProduct);
-  }
+ }
 }
 
-module.exports = new ProductService();
+module.exports = {
+  productService: new ProductService()
+};

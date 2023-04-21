@@ -1,63 +1,48 @@
 const { Router } = require('express');
-const { Product } = require('../data-access/models');
+// const { Product } = require('../data-access/models');
 const { productsMiddleware } = require('../middleware');
+const productService = require('../service');
 
 const router = Router();
 
 // 상품 카테고리 목록 조회
-router.get('/products/:category', async (req, res) => {
+router.get('/products/:category', productsMiddleware.getProductsByCategory, async (req, res) => {
 
     try {
-        const category = parseInt(req.params.category);
-
-        const products = await Product.find({ category: category });
-        if (products.length === 0) {
-            res.status(404).json({ message: '해당 카테고리의 상품이 없습니다.' });
-            return;
-        }
-    
+        const products = await productService.getProductsByCategory(req.params.category);
         res.json(products);
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: '상품 목록 조회에 실패했습니다.' });
+        res.status(500).json({ message: 'router: 해당 카테고리의 상품 목록 조회에 실패하였습니다.' });
     }
 });
 
 
 // 상품 상세정보 조회 
-router.get('/products/:id', productsMiddleware.getProduct, async (req, res) => {
+router.get('/product/:productId', productsMiddleware.getProductById, async (req, res) => {
     try {
-        const product = req.product;
-
+        const product = await productService.getProductById(req.params.productId);
         if (!product) {
-            res.status(404).json({ message: '상품이 존재하지 않습니다.' });
+            res.status(404).json({ message: 'router: 상품이 존재하지 않습니다.' });
             return;
         }
-
         res.json(product);
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send('상품 상세정보 조회에 실패하였습니다.')
+        console.error(error);
+        res.status(500).json({ message: 'router: 상품 상세정보 조회에 실패했습니다.' });
     }
 });
 
 // 상품 정보 DB에 저장
-router.post('/products', productsMiddleware.validateProduct, async (req, res) => {
+router.post('/product', productsMiddleware.validateProduct, async (req, res) => {
     try {
-        const { productName, price, description, company } = req.body;
-
-        let postProduct = new Product({
-            productName,
-            price,
-            description,
-            company,
-        });
-
-        await postProduct.save();
-        res.json(postProduct);
+        const product = req.body;
+        console.log('DB 저장: product')
+        const newProduct = await productService.createProduct(product);
+        res.status(201).json(newProduct);
     } catch (error) {
-        console.error(error.message);
-        res.status(500).send('상품 저장에 실패하였습니다.')
+        console.error(error);
+        res.status(500).json({ message: 'router: 상품 생성에 실패했습니다.' });
     }
 });
 
