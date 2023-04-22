@@ -1,3 +1,3 @@
-const productDAO = require("./productsDAO");
+const productDAO = require("./productDAO");
 
 module.exports = { productDAO };

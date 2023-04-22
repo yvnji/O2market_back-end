@@ -1,6 +1,6 @@
 // index.js
 const express = require("express");
-const productRouter = require("./productsRouter");
+const productRouter = require("./productRouter");
 
 // 버전 1용 라우터.
 // REST API의 경우 버저닝을 통해 새로운 API들을 추가하거나, 기존 API들을 보강해서 출시한다.
@@ -9,7 +9,7 @@ const productRouter = require("./productsRouter");
 // (이미 많은 사용자들이 자신들의 어플리케이션에서 사용하고 있기 때문에 기능을 수정할 경우 그들의 비즈니스에 심각한 임팩트를 줄 가능성이 있다.)
 // API를 개발할 때는 책임감을 가지고 "개발"하고 "테스트"하고 "배포"하고 "관리"해야한다.
 const v1Router = express.Router();
-v1Router.use("/products", productRouter);
+v1Router.use("/product", productRouter);
 
 module.exports = {
     v1: v1Router, // API 버저닝을 위해 v1Router는 v1에 할당

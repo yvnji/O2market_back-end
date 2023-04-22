@@ -3,17 +3,17 @@
 const ProductService = require('../service');
 
 // 카테고리 상품목록 미들웨어 
-async function getProductsByCategory(req, res, next) {
-    try {
-        const category = req.params.category;
-        const products = await ProductService.getProductsByCategory(category);
-        req.products = products;
-        next();
-    } catch (error) {
-        console.error(error.message);
-        res.status(500).send('middleware: 상품 목록 조회에 실패했습니다.');
-    }
-}
+// async function getProductsByCategory(req, res, next) {
+//     try {
+//         const category = req.params.category;
+//         const products = await ProductService.getProductsByCategory(category);
+//         req.products = products;
+//         next();
+//     } catch (error) {
+//         console.error(error.message);
+//         res.status(500).send('middleware: 상품 목록 조회에 실패했습니다.');
+//     }
+// }
 
 // 상품 정보 조회 에러처리 미들웨어
 async function getProductById(req, res, next) {
@@ -44,5 +44,5 @@ function validateProduct(req, res, next) {
 module.exports = { 
     validateProduct, 
     getProductById,
-    getProductsByCategory
+    //getProductsByCategory
 };
