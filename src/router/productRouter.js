@@ -1,12 +1,12 @@
 const { Router } = require('express');
 // const { Product } = require('../data-access/models');
 const { productsMiddleware } = require('../middleware');
-const productService = require('../service');
+const { productService } = require('../service');
 
 const router = Router();
 
 // 상품 카테고리 목록 조회
-router.get('/products/:category', productsMiddleware.getProductsByCategory, async (req, res) => {
+router.get('/products/:category', async (req, res) => {
 
     try {
         const products = await productService.getProductsByCategory(req.params.category);
@@ -34,7 +34,7 @@ router.get('/product/:productId', productsMiddleware.getProductById, async (req,
 });
 
 // 상품 정보 DB에 저장
-router.post('/product', productsMiddleware.validateProduct, async (req, res) => {
+router.post('/product/save', productsMiddleware.validateProduct, async (req, res) => {
     try {
         const product = req.body;
         console.log('DB 저장: product')
