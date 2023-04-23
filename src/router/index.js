@@ -13,7 +13,7 @@ const orderRouter = require("./orderRouter");
 const v1Router = express.Router();
 
 v1Router.use("/users", userRouter);
-v1Router.use("/product", productRouter);
+v1Router.use("/products", productRouter);
 v1Router.use("/orders", orderRouter);
 
 module.exports = {
