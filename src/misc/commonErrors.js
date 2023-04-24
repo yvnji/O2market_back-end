@@ -1,5 +1,3 @@
-// 공통적으로 자주 발생하는 에러의 이름들 묶음.
-// AppError 객체를 생성할 때 name값으로써 사용한다
 const commonErrors = {
   authenticationError: `Authentication Error`,
   authorizationError: `Authorization Error`,

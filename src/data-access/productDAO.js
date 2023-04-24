@@ -8,7 +8,11 @@ class productDAO {
       return products;
     } catch (error) {
       console.error(error);
-      throw new AppError(commonErrors.databaseError, 500, 'DB에 문제가 발생하여 상품 데이터를 가져오지 못했습니다');
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        'DB에 문제가 발생하여 상품 데이터를 가져오지 못했습니다'
+      );
     }
   }
 
