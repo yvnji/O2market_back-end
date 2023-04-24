@@ -1,4 +1,6 @@
-const { Order } = require('../data-access/models');
+// const { Order } = require('../data-access/models');
+const AppError = require('../misc/AppError');
+const commonErrors = require('../misc/commonErrors');
 
 // 주문 요청 검증
 const orderValidator = (req, res, next) => {
