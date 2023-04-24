@@ -1,40 +1,66 @@
-const {Order} = require("../data-access/models");
+const { Order } = require("./models");
 
-class OrderDAO {
+class orderDAO {
+  /* findAll 모르겠음 무슨 용도인지!!
+   async findAll() {
+     const orders = Order.find({});
+     return orders;
+   }
+ */
   // 주문 추가
-    async create(orderData) {
-      const order = new OrderModel(orderData);
-      await order.save();
-      return order;
+  async create(orderInfo) {
+    const createdNewOrder = await Order.create(orderInfo);
+    return createdNewOrder;
   }
 
   // 전체 주문목록 조회
-    async findAll() {
-      return await Order.find();
+  async findAll() {
+    return await Order.find();
   }
 
-  // 특정 주문 조회
-    async findByOrderId(orderId) {
-      return await Order.findOne({_id: orderId});
+  // 유저 아이디로 주문 아이디 찾기
+  async findOrderId(userId) {
+    const findOrderId =  await Order.findOne({userId: userId}, '_id');
+
+    const orderId =findOrderId._id;
+    console.log("=======orderId.types===========");
+    console.log(orderId.types);
+    return orderId;
   }
 
+  async findByUserId(userId) {
+    return await Order.find({ userId: userId });
+
+  }
+  async findByOrderId(orderId) {
+    return await Order.findOne({ _id: orderId });
+  }
   // 주문 수정
-    async update(orderId, toUpdate) {
-      const updatedOrder = await Order.findOneAndUpdate({_id: orderId}, toUpdate, {new: true});
-      if (!updatedOrder) {
-        throw new Error(`주문 ${orderId}를 찾을 수 없습니다.`);
-      }
-      return updatedOrder;
+  async update(orderId, update) {
+    console.log("===========update start =================")
+    console.log("===========orderId=================")
+    console.log(orderId);
+    console.log("===========update=================")
+    console.log(update);
+    const option = { returnOriginal: false };
+    // new: true >> 적용된 문서를 반환
+    const updatedOrder = await Order.findOneAndUpdate({_id: orderId}, update, option);
+    if (!updatedOrder) {
+      throw new Error(`주문 ${orderId}를 찾을 수 없습니다.`);
+    }
+    return updatedOrder;
   }
 
   // 주문 삭제
-    async delete(orderId) {
-      const deleteCount = await Order.deleteOne({_id: orderId}).deletedCount;
-      if (deleteCount === 0) {
-        throw new Error(`주문 ${orderId}를 삭제하는 데 실패했습니다.`);
-      }
-      return {result: "성공"};
+  async delete(orderId) {
+    const deleteCount = await Order.deleteOne({_id: orderId});
+    return {result: "성공"};
   }
+
+  async findById(orderItemId) {
+    return await OrderItem.findOne({ _id: orderItemId });
+  }
+
 }
 
-module.exports = OrderDAO;
+module.exports = new orderDAO();
