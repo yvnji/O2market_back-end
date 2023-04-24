@@ -1,12 +1,6 @@
 const { Order } = require('./models');
 
 class orderDAO {
-  /* findAll 모르겠음 무슨 용도인지!!
-   async findAll() {
-     const orders = Order.find({});
-     return orders;
-   }
- */
   // 주문 추가
   async create(orderInfo) {
     const createdNewOrder = await Order.create(orderInfo);
