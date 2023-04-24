@@ -8,7 +8,11 @@ class ProductService {
       const products = await productDAO.findByCategory(category);
       return products;
     } catch (error) {
-      throw new AppError(commonErrors.businessError, 500, 'Business Error로 인해 상품 데이터를 가져오지 못했습니다');
+      throw new AppError(
+        commonErrors.businessError,
+        500,
+        'Business Error로 인해 상품 데이터를 가져오지 못했습니다'
+      );
     }
   }
 
@@ -16,7 +20,11 @@ class ProductService {
     try {
       const product = await productDAO.getById(id);
       if (!product) {
-        throw new AppError(commonErrors.businessError, 500, 'Business Error: 해당 상품은 존재하지 않습니다.');
+        throw new AppError(
+          commonErrors.businessError,
+          500,
+          'Business Error: 해당 상품은 존재하지 않습니다.'
+        );
       }
       return product;
     } catch (error) {

@@ -21,7 +21,6 @@ function buildResponse(data, errorMessage) {
   };
 }
 
-
 module.exports = {
   sanitizeObject,
   buildResponse,

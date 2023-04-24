@@ -8,7 +8,9 @@ const ProductJoiSchema = Joi.object({
   price: Joi.number().required(),
   imageUrl: Joi.string().uri().required(),
   company: Joi.string().required(),
-  category: Joi.string().pattern(new RegExp(Types.ObjectId.isValid())).required(),
+  category: Joi.string()
+    .pattern(new RegExp(Types.ObjectId.isValid()))
+    .required(),
 });
 
 module.exports = ProductJoiSchema;
