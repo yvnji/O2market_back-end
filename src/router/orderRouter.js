@@ -101,11 +101,8 @@ orderRouter.post(
       const userId = req.params.userId;
       const { orderAddr, deliveryState, deleteFlag } = req.body;
 
-
-
       const orderItems = req.body.orderItems; // orderItems를 배열로 변경하지 않음
       const dbProductId = await productService.getProductById(orderItems[0].productId)
-
 
     if (orderItems[0].productId.toString() !== dbProductId._id.toString() && orderItems[0].price !== dbProductId.price ) {
         return res
