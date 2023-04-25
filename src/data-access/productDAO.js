@@ -1,10 +1,25 @@
 const { Product } = require('./models');
 
 class productDAO {
-  // 상품 목록 조회
+  // 상품 전체 조회
+  async findAll() {
+    try {
+      const products = await Product.find({}).lean();
+      return products;
+    } catch (error) {
+      console.error(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        'DB에 문제가 발생하여 상품 데이터를 가져오지 못했습니다'
+      );
+    }
+  }
+
+  // 카테고리별 상품 목록 조회
   async findByCategory(category) {
     try {
-      const products = await Product.findOne({ category }).lean();
+      const products = await Product.find({ category }).lean();
       return products;
     } catch (error) {
       console.error(error);

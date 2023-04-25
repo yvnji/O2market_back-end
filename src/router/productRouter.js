@@ -3,7 +3,17 @@ const { productService } = require('../service');
 
 const productRouter = express.Router();
 
-// 상품 카테고리 목록 조회
+// 전체 상품 조회
+productRouter.get('/', async (req, res, next) => {
+  try {
+    const products = await productService.getAllProducts();
+    res.json(products);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// 카테고리별 상품 목록 조회
 productRouter.get('/', async (req, res, next) => {
   try {
     const { category } = req.query;

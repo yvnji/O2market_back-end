@@ -2,6 +2,11 @@ const http = require('http');
 const express = require('express');
 const loader = require('./loader');
 const config = require('./config');
+const cors = require('cors');
+const corsAcceptOption = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200, // 응답 코드
+};
 
 const AppError = require('./misc/AppError');
 const commonErrors = require('./misc/commonErrors');
@@ -31,6 +36,9 @@ async function create() {
     credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
     optionsSuccessStatus: 200, // 응답 상태 200으로 설정
   }));
+
+  // cors
+  expressApp.use(cors(corsAcceptOption));
 
   // version 1의 api router를 등록
   expressApp.use('/api/v1', apiRouter.v1);
@@ -65,7 +73,7 @@ async function create() {
     start() {
       server.listen(config.port);
       server.on('listening', () => {
-        console.log(`🚀 게시판 서버가 포트 ${config.port}에서 운영중입니다.`);
+        console.log(`🚀 O2 Market 서버가 포트 ${config.port}에서 운영중입니다.`);
       });
     },
     // 서버 어플리케이션을 중지하기 위한 메소드

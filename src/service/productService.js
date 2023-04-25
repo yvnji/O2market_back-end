@@ -3,6 +3,20 @@ const AppError = require('../misc/AppError');
 const commonErrors = require('../misc/commonErrors');
 
 class ProductService {
+  // 상품 전체 조회
+  async getAllProducts() {
+    try {
+      const products = await productDAO.findAll();
+      return products;
+    } catch (error) {
+      throw new AppError(
+        commonErrors.businessError,
+        500,
+        'Business Error로 인해 상품 데이터를 가져오지 못했습니다'
+      );
+    }
+  }
+  // 카테고리별 상품 목록 조회
   async getProductsByCategory(category) {
     try {
       const products = await productDAO.findByCategory(category);
@@ -15,7 +29,7 @@ class ProductService {
       );
     }
   }
-
+  // 상품 상세정보 조회
   async getProductById(id) {
     try {
       const product = await productDAO.getById(id);
