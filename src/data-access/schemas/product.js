@@ -25,6 +25,9 @@ const productSchema = new mongoose.Schema({
     type: Number, // 카테고리 종류(채소 : 0/과일 : 1)
     required: true,
   },
-});
+},
+    {
+      collection: 'products',
+    });
 
 module.exports = productSchema;

@@ -2,11 +2,11 @@ const { User } = require('./models');
 class userDAO {
   // 특정 email로 사용자 document 객체를 찾아오는 메소드
   async findByEmail(email) {
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).lean();
     return user;
   }
   async findById(userId) {
-    const user = await User.findOne({ _id: userId });
+    const user = await User.findOne({ _id: userId }).lean();
     return user;
   }
   async create(userInfo) {
@@ -14,23 +14,17 @@ class userDAO {
     return createdNewUser;
   }
 
-  async findAll() {
-    const users = await User.find({});
-    return users;
-  }
-  async update({ userId, update }) {
+  async updateById ({ userId, update }) {
     const filter = { _id: userId };
-    const option = { returnOriginal: false };
+    const option = { new: true };
 
-    const updatedUser = await User.findOneAndUpdate(filter, update, option);
+    const updatedUser = await User.findOneAndUpdate(filter, update, option).lean();
     return updatedUser;
   }
 
   async deleteById(userId) {
-    // const filter = { _id: userId };
-    // const option = { returnOriginal: false };
+    const deletedUser = await User.findOneAndDelete({ _id: userId }).lean();
 
-    const deletedUser = await User.findOneAndDelete({ _id: userId });
     return deletedUser;
   }
 }

@@ -38,7 +38,6 @@ class orderService {
 
   //주문수정
   async updateOrder(userInfoRequired, toUpdate) {
-    console.log('==========updateOrder=================');
     const { userId } = userInfoRequired;
     let order = await orderDAO.findByUserId(userId);
 
@@ -74,7 +73,7 @@ class orderService {
 
   //주문 삭제
   async deleteOrder(orderId) {
-    let order = await orderDAO.findByOrderId(orderId);
+    let order = await orderDAO.findById(orderId);
     if (!order) {
       throw new Error('등록된 주문이 없습니다. 다시 확인 해주세요 ');
     }
