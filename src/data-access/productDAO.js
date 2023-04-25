@@ -4,7 +4,7 @@ class productDAO {
   // 상품 목록 조회
   async findByCategory(category) {
     try {
-      const products = await Product.findOne({ category }).lean();
+      const products = await Product.find({ category }).lean();
       return products;
     } catch (error) {
       console.error(error);
