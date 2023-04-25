@@ -1,6 +1,7 @@
 const jwt = require('jsonwebtoken');
 const AppError = require('../misc/AppError');
 const commonErrors = require('../misc/commonErrors');
+const { UserJoiSchema } = require('../data-access/joiSchemas');
 
 function loginRequired(req, res, next) {
   // request 헤더로부터 authorization bearer 토큰을 받음.
@@ -23,6 +24,13 @@ function loginRequired(req, res, next) {
   try {
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
     const jwtDecoded = jwt.verify(userToken, secretKey);
+    //로그인 인증과 관련된 미들웨어에서는 유저 조이 스키마를 적용하지 않아도 되지만,
+    //유저 정보 수정 등 다른 기능을 구현할 때는 유저 조이 스키마를 적용하여 유효성 검증을 수행
+    const { error } = UserJoiSchema.validate(jwtDecoded.user);
+
+    if (error) {
+      throw new Error(error.message);
+    }
 
     const userId = jwtDecoded.userId;
 
