@@ -6,6 +6,9 @@ const config = require('./config');
 const AppError = require('./misc/AppError');
 const commonErrors = require('./misc/commonErrors');
 const apiRouter = require('./router');
+const cors = require('cors');
+
+
 
 async function create() {
   // MongoDB에 연결
@@ -23,13 +26,11 @@ async function create() {
     });
   });
 
-  /*expressApp.get("/users", (req, res, next) => {
-        res.json({
-            status: "OK",
-        });
-    });
-
-    */
+  expressApp.use(cors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], // 접근 권한을 부여하는 도메인
+    credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
+    optionsSuccessStatus: 200, // 응답 상태 200으로 설정
+  }));
 
   // version 1의 api router를 등록
   expressApp.use('/api/v1', apiRouter.v1);
