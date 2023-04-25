@@ -67,9 +67,9 @@ class userService {
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
-    // 2개 프로퍼티를 jwt 토큰에 담음
+
     const token = jwt.sign({ userId: user._id }, secretKey);
-    return { token };
+    return token ;
   }
 
   // 사용자 정보 조회
@@ -125,7 +125,7 @@ class userService {
     }
 
     // 업데이트 진행
-    user = await userDAO.update({
+    user = await userDAO.updateById({
       userId,
       update: toUpdate,
     });

@@ -1,5 +1,5 @@
 const express = require('express');
-const { orderService } = require('../service');
+const { orderService, productService} = require('../service');
 const { userMiddleware } = require('../middleware');
 const { orderMiddleware } = require('../middleware');
 
@@ -102,6 +102,14 @@ orderRouter.post(
       const { orderAddr, deliveryState, deleteFlag } = req.body;
 
       const orderItems = req.body.orderItems; // orderItems를 배열로 변경하지 않음
+      const dbProductId = await productService.getProductById(orderItems[0].productId)
+
+    if (orderItems[0].productId.toString() !== dbProductId._id.toString() && orderItems[0].price !== dbProductId.price ) {
+        return res
+            .status(400)
+            .json({ error: '일치하는 상품이 존재하지 않습니다.' });
+    }
+
       const orderInfo = {
         ...(userId && { userId }),
         ...(orderItems && { orderItems }),
@@ -162,12 +170,12 @@ orderRouter.put(
         ...(deliveryState !== undefined && { deliveryState }),
       };
 
+
       const updateOrderInfo = await orderService.updateOrder(
         userInfoRequired,
         toUpdate
       );
-      console.log(updateOrderInfo);
-      //  res.status.json(updateOrderInfo);
+        res.status(200).json(updateOrderInfo);
     } catch (error) {
       next(error);
     }

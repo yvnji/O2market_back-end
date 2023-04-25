@@ -35,6 +35,7 @@ class productDAO {
   async getById(id) {
     try {
       const product = await Product.findById(id).lean();
+      console.log(product);
       return product;
     } catch (error) {
       console.error(error);

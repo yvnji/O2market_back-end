@@ -2,15 +2,11 @@ const http = require('http');
 const express = require('express');
 const loader = require('./loader');
 const config = require('./config');
-const cors = require('cors');
-const corsAcceptOption = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, // 응답 코드
-};
 
 const AppError = require('./misc/AppError');
 const commonErrors = require('./misc/commonErrors');
 const apiRouter = require('./router');
+const cors = require('cors');
 
 async function create() {
   // MongoDB에 연결
@@ -28,13 +24,11 @@ async function create() {
     });
   });
 
-  /*expressApp.get("/users", (req, res, next) => {
-        res.json({
-            status: "OK",
-        });
-    });
-
-    */
+  expressApp.use(cors({
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://127.0.0.1:5500'], // 접근 권한을 부여하는 도메인
+    credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
+    optionsSuccessStatus: 200, // 응답 상태 200으로 설정
+  }));
 
   // cors
   expressApp.use(cors(corsAcceptOption));
