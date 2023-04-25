@@ -17,8 +17,6 @@ class orderDAO {
     const findOrderId = await Order.findOne({ userId: userId }, '_id');
 
     const orderId = findOrderId._id;
-    console.log('=======orderId.types===========');
-    console.log(orderId.types);
     return orderId;
   }
 
@@ -29,12 +27,7 @@ class orderDAO {
     return await Order.findOne({ _id: orderId });
   }
   // 주문 수정
-  async update(orderId, update) {
-    console.log('===========update start =================');
-    console.log('===========orderId=================');
-    console.log(orderId);
-    console.log('===========update=================');
-    console.log(update);
+  async update({ orderId, update }) {
     const option = { returnOriginal: false };
     // new: true >> 적용된 문서를 반환
     const updatedOrder = await Order.findOneAndUpdate(

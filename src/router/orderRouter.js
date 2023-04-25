@@ -145,8 +145,6 @@ orderRouter.put(
       const { orderAddr, deliveryState } = req.body;
 
       const userInfoRequired = { userId };
-      console.log('=======deliveryState===========');
-      console.log(deliveryState);
 
       if (deliveryState !== 0) {
         return res
@@ -160,15 +158,12 @@ orderRouter.put(
         ...(deliveryState !== undefined && { deliveryState }),
       };
 
-      console.log('=======toUpdate===========');
-      console.log(toUpdate);
-
       const updateOrderInfo = await orderService.updateOrder(
         userInfoRequired,
         toUpdate
       );
-
-      res.status.json(updateOrderInfo);
+      console.log(updateOrderInfo);
+      //  res.status.json(updateOrderInfo);
     } catch (error) {
       next(error);
     }
@@ -184,14 +179,14 @@ orderRouter.delete(
       const userId = req.params.userId;
       const orderId = req.params.orderId;
       const userInfoRequired = { userId };
-      const orderInfo = { orderId };
+      // const orderInfo = { orderId };
       const orders = await orderService.getOrdersByUser(userInfoRequired);
 
       if (!orders) {
         return res.status(400).json({ error: '주문 내역이 없습니다!' });
       }
       //삭제 시도
-      const deleteResult = await orderService.deleteOrder(orderInfo);
+      const deleteResult = await orderService.deleteOrder(orders);
       res.status(200).json(deleteResult);
     } catch (error) {
       next(error);
