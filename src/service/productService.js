@@ -50,22 +50,20 @@ class ProductService {
     }
   }
 
-  // async createProduct(product) { - 관리자
-  //   try {
-  //     const { productName, description, price, imageUrl, company, category } = product;
-  //     const newProduct = {
-  //       productName,
-  //       description,
-  //       price, imageUrl,
-  //       company,
-  //       category,
-  //     }
-  //     return await productDAO.create(newProduct);
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw new AppError(commonErrors.businessError, 500, 'Business Error로 인해 상품 저장에 실패하였습니다.');
-  //   }
-  // }
+  // 상품 추가 - 관리자
+  async createProduct(product) {
+    try {
+      const createdProduct = await productDAO.create(product);
+      return createdProduct;
+    } catch (error) {
+      console.error(error);
+      throw new AppError(
+        commonErrors.businessError,
+        500,
+        'Business Error로 인해 상품 저장에 실패하였습니다.'
+      );
+    }
+  }
 }
 
 module.exports = new ProductService();
