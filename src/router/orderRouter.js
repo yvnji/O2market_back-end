@@ -1,6 +1,7 @@
 const express = require('express');
 const { orderService } = require('../service');
 const { userMiddleware } = require('../middleware');
+const { orderMiddleware } = require('../middleware');
 
 const orderRouter = express.Router();
 /*
@@ -94,6 +95,7 @@ const orderSaver = (req, res, next) => {
 orderRouter.post(
   '/:userId',
   userMiddleware.loginRequired,
+  orderMiddleware.orderValidator,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
@@ -120,6 +122,7 @@ orderRouter.post(
 orderRouter.get(
   '/:userId',
   userMiddleware.loginRequired,
+  orderMiddleware.createOrderValidator,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
@@ -138,6 +141,7 @@ orderRouter.get(
 orderRouter.put(
   '/:userId',
   userMiddleware.loginRequired,
+  orderMiddleware.updateOrderValidator,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
