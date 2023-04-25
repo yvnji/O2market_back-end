@@ -2,6 +2,11 @@ const http = require('http');
 const express = require('express');
 const loader = require('./loader');
 const config = require('./config');
+const cors = require('cors');
+const corsAcceptOption = {
+  origin: 'http://localhost:3000',
+  optionsSuccessStatus: 200, // 응답 코드
+};
 
 const AppError = require('./misc/AppError');
 const commonErrors = require('./misc/commonErrors');
@@ -30,6 +35,9 @@ async function create() {
     });
 
     */
+
+  // cors
+  expressApp.use(cors(corsAcceptOption));
 
   // version 1의 api router를 등록
   expressApp.use('/api/v1', apiRouter.v1);
