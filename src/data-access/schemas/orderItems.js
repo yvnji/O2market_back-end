@@ -16,6 +16,11 @@ const orderItemsSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    productName: {
+      type: String,
+      ref: 'products',
+      required: true,
+    },
   },
   {
     collection: 'orderItems',

@@ -1,7 +1,6 @@
 const express = require('express');
 const { orderService, productService} = require('../service');
-const { userMiddleware } = require('../middleware');
-const { orderMiddleware } = require('../middleware');
+const { userMiddleware, orderMiddleware } = require('../middleware');
 
 const orderRouter = express.Router();
 
@@ -9,7 +8,7 @@ const orderRouter = express.Router();
 orderRouter.post(
   '/:userId',
   userMiddleware.loginRequired,
-  orderMiddleware.orderValidator,
+  // orderMiddleware.orderValidator,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;

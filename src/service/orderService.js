@@ -27,7 +27,7 @@ class orderService {
     const { userId } = userInfoRequired;
 
     const order = await orderDAO.findByUserId(userId);
-    console.log(order);
+    // console.log(order);
     return order;
     /*const order = await orderDAO.findByOrderId({_id: userId});
         if(!order){

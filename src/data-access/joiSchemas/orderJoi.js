@@ -7,15 +7,13 @@ const OrderJoiSchema = Joi.object({
     .items(
       Joi.object({
         productId: Joi.string().required(),
-        quantity: Joi.number().integer().min(1).required(),
-        price: Joi.number().integer().min(0).required(),
+        quantity: Joi.number().integer().required(),
+        price: Joi.number().integer().required(),
+        productName: Joi.string().required(),
       })
     )
-    .min(1)
     .required(),
-  orderAddr: Joi.object({
-    street: Joi.string().required(),
-  }).required(),
+  orderAddr: Joi.string().required(),
   deleteFlag: Joi.boolean().required(),
   deliveryState: Joi.number().required().valid(0, 1, 2),
 });

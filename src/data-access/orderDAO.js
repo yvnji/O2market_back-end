@@ -3,7 +3,7 @@ const { Order } = require('./models');
 class orderDAO {
   // 주문 추가
   async create(orderInfo) {
-    const createdNewOrder = await Order.create(orderInfo).toObject();
+    const createdNewOrder = await Order.create(orderInfo);
     return createdNewOrder;
   }
 
