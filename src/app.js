@@ -1,4 +1,3 @@
-const http = require('http');
 const express = require('express');
 const loader = require('./loader');
 const config = require('./config');
@@ -7,6 +6,8 @@ const AppError = require('./misc/AppError');
 const commonErrors = require('./misc/commonErrors');
 const apiRouter = require('./router');
 const cors = require('cors');
+
+
 
 async function create() {
   // MongoDB에 연결
@@ -18,20 +19,17 @@ async function create() {
   expressApp.use(express.json());
 
   // Health check API
-  expressApp.get('/health', (req, res, next) => {
+  expressApp.get('/health', (req, res) => {
     res.json({
       status: 'OK',
     });
   });
 
   expressApp.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000', 'http://127.0.0.1:5500'], // 접근 권한을 부여하는 도메인
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], // 접근 권한을 부여하는 도메인 ( 5500번 포트 사용 x)
     credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
     optionsSuccessStatus: 200, // 응답 상태 200으로 설정
   }));
-
-  // cors
-  expressApp.use(cors(corsAcceptOption));
 
   // version 1의 api router를 등록
   expressApp.use('/api/v1', apiRouter.v1);
@@ -39,16 +37,16 @@ async function create() {
   // 해당되는 URL이 없을 때를 대비한 미들웨어
   expressApp.use((req, res, next) => {
     next(
-      new AppError(
-        commonErrors.resourceNotFoundError,
-        404,
-        'Resource not found'
-      )
+        new AppError(
+            commonErrors.resourceNotFoundError,
+            404,
+            'Resource not found'
+        )
     );
   });
 
   // 에러 핸들러 등록
-  expressApp.use((error, req, res, next) => {
+  expressApp.use((error, req, res) => {
     console.log(error);
     res.statusCode = error.httpCode ?? 500;
     res.json({
@@ -66,7 +64,7 @@ async function create() {
     start() {
       server.listen(config.port);
       server.on('listening', () => {
-        console.log(`🚀 O2 Market 서버가 포트 ${config.port}에서 운영중입니다.`);
+        console.log(`🚀 게시판 서버가 포트 ${config.port}에서 운영중입니다.`);
       });
     },
     // 서버 어플리케이션을 중지하기 위한 메소드
