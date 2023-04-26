@@ -47,16 +47,21 @@ class productDAO {
     }
   }
 
-  // 상품 정보 DB에 저장 - 관리자
-  // async create(product) {
-  //   try {
-  //   const newProduct = await Product.create(product).toObject();
-  //   return newProduct;
-  //   } catch (error) {
-  //     console.error(error);
-  //     throw new AppError(commonErrors.databaseError, 500, 'DB에 문제가 발생하여 상품을 저장하지 못했습니다');
-  //   }
-  // }
+  // 상품 추가 - 관리자
+  async create(product) {
+    try {
+      const newProduct = new Product(product);
+      const createdProduct = await newProduct.save();
+      return createdProduct;
+    } catch (error) {
+      console.error(error);
+      throw new AppError(
+        commonErrors.databaseError,
+        500,
+        'DB에 문제가 발생하여 상품을 저장하지 못했습니다'
+      );
+    }
+  }
 }
 
 module.exports = new productDAO();

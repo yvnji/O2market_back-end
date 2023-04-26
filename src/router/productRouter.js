@@ -1,5 +1,6 @@
 const express = require('express');
 const { productService } = require('../service');
+const { productMiddleware } = require('../middleware');
 
 const productRouter = express.Router();
 
@@ -41,23 +42,28 @@ productRouter.get('/:productId', async (req, res, next) => {
   }
 });
 
-// 상품 정보 DB에 저장 - 관리자
-// productRouter.post('/save', productMiddleware.validateProduct, async (req, res, next) => {
-//   try {
-//     const { productName, description, price, imageUrl, company, category } = req.body;
-//     const newProduct = {
-//       productName,
-//       description,
-//       price,
-//       imageUrl,
-//       company,
-//       category,
-//     };
-//     const createProduct = await productService.createProduct({ newProduct });
-//     res.status(201).json(createProduct);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+// 상품 추가 - 관리자
+productRouter.post(
+  '/admin/save',
+  productMiddleware.validateProduct,
+  async (req, res, next) => {
+    try {
+      const { productName, description, price, imageUri, company, category } =
+        req.body;
+      const newProduct = {
+        productName,
+        description,
+        price,
+        imageUri,
+        company,
+        category,
+      };
+      const createProduct = await productService.createProduct(newProduct);
+      res.status(201).json(createProduct);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
 
 module.exports = productRouter;
