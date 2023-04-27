@@ -71,15 +71,10 @@ class orderService {
           );
       }*/
 
-  //주문 삭제
-  async deleteOrder(orderId) {
-    let order = await orderDAO.findById(orderId);
-    if (!order) {
-      throw new Error('등록된 주문이 없습니다. 다시 확인 해주세요 ');
-    }
-
+  //주문 전체 삭제
+  async deleteOrderAll(orderId) {
     return await orderDAO.delete(orderId);
-    return { result: '성공' };
+
   }
 }
 

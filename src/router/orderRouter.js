@@ -51,7 +51,7 @@ orderRouter.get(
       const userInfoRequired = { userId };
 
       const orders = await orderService.getOrdersByUser(userInfoRequired);
-
+        console.log(orders);
       res.json(orders);
     } catch (error) {
       next(error);
@@ -98,12 +98,12 @@ orderRouter.put(
 
 // 주문 삭제
 orderRouter.delete(
-  '/:userId/:orderId',
+  '/:userId',
   userMiddleware.loginRequired,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
-      const orderId = req.params.orderId;
+      // const orderId = req.params.orderId;
       const userInfoRequired = { userId };
       // const orderInfo = { orderId };
       const orders = await orderService.getOrdersByUser(userInfoRequired);
@@ -111,8 +111,9 @@ orderRouter.delete(
       if (!orders) {
         return res.status(400).json({ error: '주문 내역이 없습니다!' });
       }
+
       //삭제 시도
-      const deleteResult = await orderService.deleteOrder(orders);
+      const deleteResult = await orderService.deleteOrderAll(userInfoRequired);
       res.status(200).json(deleteResult);
     } catch (error) {
       next(error);
@@ -120,6 +121,7 @@ orderRouter.delete(
   }
 );
 
+/*
 // 주문 배송 상태 업데이트 라우터
 orderRouter.put(
   '/orders/:email',
@@ -128,5 +130,5 @@ orderRouter.put(
     res.status(200).json({ updatedOrder: req.updatedOrder });
   }
 );
-
+*/
 module.exports = orderRouter;
