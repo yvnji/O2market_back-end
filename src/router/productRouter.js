@@ -30,8 +30,10 @@ productRouter.get('/', async (req, res, next) => {
 // 상품 상세정보 조회
 productRouter.get('/:productId', async (req, res, next) => {
   try {
+    // const id = req.params._id;
     const productId = req.params.productId;
     const product = await productService.getProductById(productId);
+
     if (!product) {
       next();
       return;
@@ -48,9 +50,10 @@ productRouter.post(
   productMiddleware.validateProduct,
   async (req, res, next) => {
     try {
-      const { productName, description, price, imageUri, company, category } =
+      const { productId, productName, description, price, imageUri, company, category } =
         req.body;
       const newProduct = {
+        productId,
         productName,
         description,
         price,

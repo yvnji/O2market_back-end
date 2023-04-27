@@ -34,19 +34,18 @@ class productDAO {
   // 상품 상세정보 조회
   async getById(id) {
     try {
-      const product = await Product.findById(id).lean();
+      const product = await Product.findOne({productId : id}).lean();
       console.log(product);
       return product;
     } catch (error) {
       console.error(error);
       throw new AppError(
-        commonErrors.databaseError,
-        500,
-        'DB에 문제가 발생하여 상품 상세정보 데이터를 가져오지 못했습니다'
+          commonErrors.databaseError,
+          500,
+          'DB에 문제가 발생하여 상품 상세정보 데이터를 가져오지 못했습니다'
       );
     }
   }
-
   // 상품 추가 - 관리자
   async create(product) {
     try {
