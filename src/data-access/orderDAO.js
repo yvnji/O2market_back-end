@@ -23,13 +23,13 @@ class orderDAO {
   async findByUserId(userId) {
     return await Order.find({ userId: userId }).lean();
   }
-  async findById(orderId) {
+  async findByOrderId(orderId) {
     return await Order.findOne({ _id: orderId }).lean();
   }
   // 주문 수정
   async update({ orderId, update }) {
-    const option = { new: true };
-    // new: true >> 적용된 문서를 반환
+    const option = { new: true }; // new: true >> 적용된 문서를 반환
+
     const updatedOrder = await Order.findOneAndUpdate(
       { _id: orderId },
       update,
@@ -45,6 +45,10 @@ class orderDAO {
   async delete(userId) {
     const deleteCount = await Order.deleteMany(userId);
     return { result: '성공' };
+  }
+  async deleteOrder(orderId) {
+    const deletedOrder = await Order.findOneAndDelete({_id: orderId}).lean();
+    return deletedOrder;
   }
 }
 

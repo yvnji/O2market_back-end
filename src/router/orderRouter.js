@@ -120,6 +120,21 @@ orderRouter.delete(
     }
   }
 );
+// 주문 한개 삭제
+orderRouter.delete(
+    '/:userId/:_id',
+    userMiddleware.loginRequired,
+    async (req, res, next) => {
+        try {
+            const orderId = req.params._id;
+
+            const deleteResult = await orderService.deleteOrderOne(orderId);
+            res.status(200).json(deleteResult);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
 
 /*
 // 주문 배송 상태 업데이트 라우터

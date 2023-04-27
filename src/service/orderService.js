@@ -17,7 +17,7 @@ class orderService {
     return await orderDAO.create(newOrderInfo);
   }
 
-  //전체 주문목록 조회
+  //전체 주문목록 조회(관리자용)
   async getOrders() {
     return await orderDAO.findAll();
   }
@@ -25,25 +25,21 @@ class orderService {
   //특정 사용자의 주문조회
   async getOrdersByUser(userInfoRequired) {
     const { userId } = userInfoRequired;
+    return await orderDAO.findByUserId(userId);
+  }
 
-    const order = await orderDAO.findByUserId(userId);
-    // console.log(order);
-    return order;
-    /*const order = await orderDAO.findByOrderId({_id: userId});
-        if(!order){
-          throw new Error("등록된 주문이 없습니다. 다시 주문해 주세요")
-        }*/
-    // return order;
+  // 주문번호로 주문하나 조회
+  async OrdersByUser(userInfoRequired) {
+    const { orderId } = userInfoRequired;
+    return await orderDAO.findByOrderId(orderId);
   }
 
   //주문수정
   async updateOrder(userInfoRequired, toUpdate) {
     const { userId } = userInfoRequired;
-    let order = await orderDAO.findByUserId(userId);
 
-    // const {orderId} = req.params;
+    let order = await orderDAO.findByUserId(userId);
     const orderId = await orderDAO.findOrderId(userId);
-    console.log(orderId);
 
     if (!order) {
       throw new Error('등록된 주문이 없습니다. 다시 확인해 주세요');
@@ -57,26 +53,18 @@ class orderService {
 
     return order;
   }
-  /*
-      //주문정보 수정 - 배송시작 전, 주문자 정보 수정 -> ㅠㅡㅠㅡㅠ
-      async updateDeliveryInfo() {
-
-          const { orderId } = req.params;
-          const { deliveryState } = req.body;
-
-          const updatedOrder = await orderDAO.update(
-            { _id: orderId},
-            {deliveryState },
-            { new: true },
-          );
-      }*/
 
   //주문 전체 삭제
   async deleteOrderAll(orderId) {
     return await orderDAO.delete(orderId);
 
   }
+//주문 한개 삭제
+  async deleteOrderOne(orderId) {
+    return await orderDAO.deleteOrder(orderId);
+  }
 }
+
 
 // 모듈에 구현한 기능을 추가합니다.
 module.exports = new orderService();
