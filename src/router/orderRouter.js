@@ -63,7 +63,7 @@ orderRouter.get(
 orderRouter.put(
   '/:userId',
   userMiddleware.loginRequired,
-  orderMiddleware.updateOrderValidator,
+  // orderMiddleware.updateOrderValidator,
   async (req, res, next) => {
     try {
       const userId = req.params.userId;

@@ -65,7 +65,7 @@ async function create() {
     start() {
       server.listen(config.port);
       server.on('listening', () => {
-        console.log(`🚀 게시판 서버가 포트 ${config.port}에서 운영중입니다.`);
+        console.log(`🚀 O2 마켓 포트 ${config.port}에서 운영중입니다.`);
       });
     },
     // 서버 어플리케이션을 중지하기 위한 메소드
