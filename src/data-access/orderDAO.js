@@ -15,9 +15,8 @@ class orderDAO {
   // 유저 아이디로 주문 아이디 찾기
   async findOrderId(userId) {
     const findOrderId = await Order.findOne({ userId: userId }, '_id').lean();
-
     const orderId = findOrderId._id;
-    return orderId;
+    return
   }
 
   async findByUserId(userId) {

@@ -13,11 +13,10 @@ orderRouter.post(
     try {
       const userId = req.params.userId;
       const { orderAddr, deliveryState, deleteFlag } = req.body;
+      const orderItems = req.body.orderItems;
 
-      const orderItems = req.body.orderItems; // orderItems를 배열로 변경하지 않음
-        console.log(orderItems)
       const dbProductId = await productService.getProductById(orderItems[0].productId)
-        console.log(dbProductId)
+
     if (orderItems[0].productId !== dbProductId.productId && orderItems[0].price !== dbProductId.price ) {
         return res
             .status(400)
@@ -48,10 +47,8 @@ orderRouter.get(
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
-      const userInfoRequired = { userId };
 
-      const orders = await orderService.getOrdersByUser(userInfoRequired);
-        console.log(orders);
+      const orders = await orderService.getOrdersByUser(userId);
       res.json(orders);
     } catch (error) {
       next(error);
@@ -70,8 +67,6 @@ orderRouter.put(
       const orderItems = req.body.orderItems;
       const { orderAddr, deliveryState } = req.body;
 
-      const userInfoRequired = { userId };
-
       if (deliveryState !== 0) {
         return res
           .status(400)
@@ -86,7 +81,7 @@ orderRouter.put(
 
 
       const updateOrderInfo = await orderService.updateOrder(
-        userInfoRequired,
+        userId,
         toUpdate
       );
         res.status(200).json(updateOrderInfo);
@@ -103,17 +98,15 @@ orderRouter.delete(
   async (req, res, next) => {
     try {
       const userId = req.params.userId;
-      // const orderId = req.params.orderId;
-      const userInfoRequired = { userId };
-      // const orderInfo = { orderId };
-      const orders = await orderService.getOrdersByUser(userInfoRequired);
+
+      const orders = await orderService.getOrdersByUser(userId);
 
       if (!orders) {
         return res.status(400).json({ error: '주문 내역이 없습니다!' });
       }
 
       //삭제 시도
-      const deleteResult = await orderService.deleteOrderAll(userInfoRequired);
+      const deleteResult = await orderService.deleteOrderAll(userId);
       res.status(200).json(deleteResult);
     } catch (error) {
       next(error);
@@ -136,14 +129,4 @@ orderRouter.delete(
     }
 );
 
-/*
-// 주문 배송 상태 업데이트 라우터
-orderRouter.put(
-  '/orders/:email',
-  // orderMiddleware.updateDeliveryState,
-  (req, res) => {
-    res.status(200).json({ updatedOrder: req.updatedOrder });
-  }
-);
-*/
 module.exports = orderRouter;

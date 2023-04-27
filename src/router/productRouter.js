@@ -18,11 +18,14 @@ productRouter.get('/', async (req, res, next) => {
 productRouter.get('/:category', async (req, res, next) => {
   try {
     const  category  = req.params.category;
-    console.log(category);
-    if (category !== undefined && category !== null && category !== '') {
-      const products = await productService.getProductsByCategory(category);
-      res.json(products);
+
+    if (category === undefined && category === null && category === '') {
+      throw new Error('category 잘못 입력 되었습니다.');
     }
+
+    const products = await productService.getProductsByCategory(category);
+    res.json(products);
+
   } catch (error) {
     next(error);
   }
@@ -31,13 +34,15 @@ productRouter.get('/:category', async (req, res, next) => {
 // 상품 상세정보 조회
 productRouter.get('/:productId', async (req, res, next) => {
   try {
-    // const id = req.params._id;
     const productId = req.params.productId;
-    // const { productId } = req.query;
-    if (productId !== undefined && productId !== null && productId !== '') {
-      const product = await productService.getProductById(productId);
-      res.json(product);
-      }
+
+    if (productId === undefined && productId === null && productId === '') {
+      throw new Error('productId가 잘못 입력 되었습니다.');
+    }
+
+    const product = await productService.getProductById(productId);
+    res.json(product);
+
     } catch (error) {
     next(error);
   }

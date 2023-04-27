@@ -4,8 +4,7 @@ const { orderDAO } = require('../data-access');
 class orderService {
   // 주문 추가
   async createOrder(orderInfo) {
-    const { userId, orderItems, orderAddr, deliveryState, deleteFlag } =
-      orderInfo;
+    const { userId, orderItems, orderAddr, deliveryState, deleteFlag } =  orderInfo;
 
     const newOrderInfo = {
       userId,
@@ -23,21 +22,12 @@ class orderService {
   }
 
   //특정 사용자의 주문조회
-  async getOrdersByUser(userInfoRequired) {
-    const { userId } = userInfoRequired;
+  async getOrdersByUser(userId) {
     return await orderDAO.findByUserId(userId);
   }
 
-  // 주문번호로 주문하나 조회
-  async OrdersByUser(userInfoRequired) {
-    const { orderId } = userInfoRequired;
-    return await orderDAO.findByOrderId(orderId);
-  }
-
   //주문수정
-  async updateOrder(userInfoRequired, toUpdate) {
-    const { userId } = userInfoRequired;
-
+  async updateOrder(userId, toUpdate) {
     let order = await orderDAO.findByUserId(userId);
     const orderId = await orderDAO.findOrderId(userId);
 
@@ -45,7 +35,6 @@ class orderService {
       throw new Error('등록된 주문이 없습니다. 다시 확인해 주세요');
     }
 
-    // const orderId = order._id;
     order = await orderDAO.update({
       orderId,
       update: toUpdate,
