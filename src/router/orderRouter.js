@@ -15,9 +15,10 @@ orderRouter.post(
       const { orderAddr, deliveryState, deleteFlag } = req.body;
 
       const orderItems = req.body.orderItems; // orderItems를 배열로 변경하지 않음
+        console.log(orderItems)
       const dbProductId = await productService.getProductById(orderItems[0].productId)
-
-    if (orderItems[0].productId.toString() !== dbProductId._id.toString() && orderItems[0].price !== dbProductId.price ) {
+        console.log(dbProductId)
+    if (orderItems[0].productId !== dbProductId.productId && orderItems[0].price !== dbProductId.price ) {
         return res
             .status(400)
             .json({ error: '일치하는 상품이 존재하지 않습니다.' });
