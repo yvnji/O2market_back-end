@@ -72,9 +72,8 @@ class userService {
   }
 
   // 사용자 정보 조회
-  async getUser(userInfoRequired) {
-    const { userId } = userInfoRequired;
-
+  async getUser(userId) {
+    console.log(userId);
     const user = await userDAO.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
