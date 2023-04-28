@@ -42,7 +42,7 @@ class orderDAO {
 
   // 주문 삭제
   async delete(userId) {
-    const deleteCount = await Order.deleteMany(userId);
+    const deleteCount = await Order.deleteMany({userId: userId});
     return { result: '성공' };
   }
   async deleteOrder(orderId) {
