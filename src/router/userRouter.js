@@ -90,7 +90,7 @@ userRouter.patch(
 
       // 사용자 정보를 업데이트함.
       const updatedUserInfo = await userService.setUser(
-          userId,
+        userId,
         toUpdate
       );
 

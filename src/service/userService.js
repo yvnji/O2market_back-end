@@ -85,10 +85,10 @@ class userService {
   }
 
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  async setUser(userInfoRequired, toUpdate) {
+  async setUser(userId, toUpdate) {
     // 객체 destructuring
    //  const { userId, currentPassword } = userInfoRequired;
-    const { userId } = userInfoRequired;
+    // const { userId } = userInfoRequired;
     // 우선 해당 id의 유저가 db에 있는지 확인
     let user = await userDAO.findById(userId);
 
