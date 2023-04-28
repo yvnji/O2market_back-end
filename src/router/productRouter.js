@@ -15,10 +15,9 @@ productRouter.get('/', async (req, res, next) => {
 });
 
 // 카테고리별 상품 목록 조회
-productRouter.get('/:category', async (req, res, next) => {
+productRouter.get('/category', async (req, res, next) => {
   try {
-    const  category  = req.params.category;
-
+    const { category }  = req.query;
     if (category === undefined && category === null && category === '') {
       throw new Error('category 잘못 입력 되었습니다.');
     }
