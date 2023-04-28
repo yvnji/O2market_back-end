@@ -19,7 +19,7 @@ class productDAO {
   // 카테고리별 상품 목록 조회
   async findByCategory(category) {
     try {
-      const products = await Product.find({ category : category }).lean();
+      const products = await Product.find({ category : category });
       console.log(products);
       return products;
     } catch (error) {
