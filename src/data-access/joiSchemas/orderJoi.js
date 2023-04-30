@@ -1,5 +1,4 @@
 const Joi = require('joi');
-// const { Types } = require('mongoose');
 
 const OrderJoiSchema = Joi.object({
   userId: Joi.string().required(),

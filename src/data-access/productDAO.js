@@ -19,7 +19,7 @@ class productDAO {
   // 카테고리별 상품 목록 조회
   async findByCategory(category) {
     try {
-      const products = await Product.find({ category : category });
+      const products = await Product.find({ category: category });
       console.log(products);
       return products;
     } catch (error) {
@@ -35,15 +35,15 @@ class productDAO {
   // 상품 상세정보 조회
   async getById(id) {
     try {
-      const product = await Product.findOne({productId : id}).lean();
+      const product = await Product.findOne({ productId: id }).lean();
       console.log(product);
       return product;
     } catch (error) {
       console.error(error);
       throw new AppError(
-          commonErrors.databaseError,
-          500,
-          'DB에 문제가 발생하여 상품 상세정보 데이터를 가져오지 못했습니다'
+        commonErrors.databaseError,
+        500,
+        'DB에 문제가 발생하여 상품 상세정보 데이터를 가져오지 못했습니다'
       );
     }
   }

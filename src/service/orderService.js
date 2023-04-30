@@ -4,7 +4,8 @@ const { orderDAO } = require('../data-access');
 class orderService {
   // 주문 추가
   async createOrder(orderInfo) {
-    const { userId, orderItems, orderAddr, deliveryState, deleteFlag } =  orderInfo;
+    const { userId, orderItems, orderAddr, deliveryState, deleteFlag } =
+      orderInfo;
 
     const newOrderInfo = {
       userId,
@@ -46,14 +47,11 @@ class orderService {
   //주문 전체 삭제
   async deleteOrderAll(orderId) {
     return await orderDAO.delete(orderId);
-
   }
-//주문 한개 삭제
+  //주문 한개 삭제
   async deleteOrderOne(orderId) {
     return await orderDAO.deleteOrder(orderId);
   }
 }
 
-
-// 모듈에 구현한 기능을 추가합니다.
 module.exports = new orderService();

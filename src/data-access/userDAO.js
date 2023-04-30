@@ -14,11 +14,15 @@ class userDAO {
     return createdNewUser;
   }
 
-  async updateById ({ userId, update }) {
+  async updateById({ userId, update }) {
     const filter = { _id: userId };
     const option = { new: true };
 
-    const updatedUser = await User.findOneAndUpdate(filter, update, option).lean();
+    const updatedUser = await User.findOneAndUpdate(
+      filter,
+      update,
+      option
+    ).lean();
     return updatedUser;
   }
 

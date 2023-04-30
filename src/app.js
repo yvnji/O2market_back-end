@@ -8,10 +8,7 @@ const commonErrors = require('./misc/commonErrors');
 const apiRouter = require('./router');
 const cors = require('cors');
 
-
-
 async function create() {
-  // MongoDB에 연결
   await loader.connectMongoDB();
 
   console.log('express application을 초기화합니다.');
@@ -19,30 +16,29 @@ async function create() {
 
   expressApp.use(express.json());
 
-  // Health check API
   expressApp.get('/health', (req, res) => {
     res.json({
       status: 'OK',
     });
   });
 
-  expressApp.use(cors({
-    origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], // 접근 권한을 부여하는 도메인 ( 5500번 포트 사용 x)
-    credentials: true, // 응답 헤더에 Access-Control-Allow-Credentials 추가
-    optionsSuccessStatus: 200, // 응답 상태 200으로 설정
-  }));
+  expressApp.use(
+    cors({
+      origin: ['http://localhost:3000', 'http://127.0.0.1:3000'], // 접근 권한을 부여하는 도메인 ( 5500번 포트 사용 x)
+      credentials: true,
+      optionsSuccessStatus: 200,
+    })
+  );
 
-  // version 1의 api router를 등록
   expressApp.use('/api/v1', apiRouter.v1);
 
-  // 해당되는 URL이 없을 때를 대비한 미들웨어
   expressApp.use((req, res, next) => {
     next(
-        new AppError(
-            commonErrors.resourceNotFoundError,
-            404,
-            'Resource not found'
-        )
+      new AppError(
+        commonErrors.resourceNotFoundError,
+        404,
+        'Resource not found'
+      )
     );
   });
 
@@ -57,22 +53,16 @@ async function create() {
   });
   console.log('express application 준비가 완료되었습니다.');
 
-  // express와 http.Server을 분리해서 관리하기 위함.
   const server = http.createServer(expressApp);
 
   const app = {
-    // 서버 어플리케이션을 시작하기 위한 메소드
     start() {
       server.listen(config.port);
       server.on('listening', () => {
         console.log(`🚀 O2 마켓 포트 ${config.port}에서 운영중입니다.`);
       });
     },
-    // 서버 어플리케이션을 중지하기 위한 메소드
-    // 이 함수는 어플리케이션이 죽기 전(예를 들어 개발자가 ctrl+c를 누른 직후)에 실행될 예정이다.
-    // 죽기 전에 실행됨으로서:
-    // 1) 서버가 더 이상 외부로부터 요청을 받지 않도록 하고(죽는 도중에 요청을 받으면 해당 요청은 응답을 못 받을 가능성이 매우 높기 때문에 애초에 서버가 죽기 전에는 받지 않도록 해주는 것이 좋다)
-    // 2) mongoDB와의 연결을 안전하게 끊는다.
+
     stop() {
       console.log('🔥 서버를 중지 작업을 시작합니다.');
       this.isShuttingDown = true;
@@ -91,7 +81,7 @@ async function create() {
         });
       });
     },
-    isShuttingDown: false, // 서버가 중지하는 상태인지를 확인하는 플래그
+    isShuttingDown: false,
     _app: expressApp,
   };
 

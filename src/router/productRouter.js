@@ -17,14 +17,13 @@ productRouter.get('/', async (req, res, next) => {
 // 카테고리별 상품 목록 조회
 productRouter.get('/category', async (req, res, next) => {
   try {
-    const { category }  = req.query;
+    const { category } = req.query;
     if (category === undefined && category === null && category === '') {
       throw new Error('category 잘못 입력 되었습니다.');
     }
 
     const products = await productService.getProductsByCategory(category);
     res.json(products);
-
   } catch (error) {
     next(error);
   }
@@ -41,8 +40,7 @@ productRouter.get('/:productId', async (req, res, next) => {
 
     const product = await productService.getProductById(productId);
     res.json(product);
-
-    } catch (error) {
+  } catch (error) {
     next(error);
   }
 });
@@ -53,8 +51,15 @@ productRouter.post(
   productMiddleware.validateProduct,
   async (req, res, next) => {
     try {
-      const { productId, productName, description, price, imageUri, company, category } =
-        req.body;
+      const {
+        productId,
+        productName,
+        description,
+        price,
+        imageUri,
+        company,
+        category,
+      } = req.body;
       const newProduct = {
         productId,
         productName,
