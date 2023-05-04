@@ -16,7 +16,7 @@ class orderDAO {
   async findOrderId(userId) {
     const findOrderId = await Order.findOne({ userId: userId }, '_id').lean();
     const orderId = findOrderId._id;
-    return
+    return;
   }
 
   async findByUserId(userId) {
@@ -42,11 +42,11 @@ class orderDAO {
 
   // 주문 삭제
   async delete(userId) {
-    const deleteCount = await Order.deleteMany({userId: userId});
+    const deleteCount = await Order.deleteMany({ userId: userId });
     return { result: '성공' };
   }
   async deleteOrder(orderId) {
-    const deletedOrder = await Order.findOneAndDelete({_id: orderId}).lean();
+    const deletedOrder = await Order.findOneAndDelete({ _id: orderId }).lean();
     return deletedOrder;
   }
 }

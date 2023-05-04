@@ -1,5 +1,5 @@
 const express = require('express');
-const { orderService, productService} = require('../service');
+const { orderService, productService } = require('../service');
 const { userMiddleware, orderMiddleware } = require('../middleware');
 
 const orderRouter = express.Router();
@@ -15,13 +15,18 @@ orderRouter.post(
       const { orderAddr, deliveryState, deleteFlag } = req.body;
       const orderItems = req.body.orderItems;
 
-      const dbProductId = await productService.getProductById(orderItems[0].productId)
+      const dbProductId = await productService.getProductById(
+        orderItems[0].productId
+      );
 
-    if (orderItems[0].productId !== dbProductId.productId && orderItems[0].price !== dbProductId.price ) {
+      if (
+        orderItems[0].productId !== dbProductId.productId &&
+        orderItems[0].price !== dbProductId.price
+      ) {
         return res
-            .status(400)
-            .json({ error: '일치하는 상품이 존재하지 않습니다.' });
-    }
+          .status(400)
+          .json({ error: '일치하는 상품이 존재하지 않습니다.' });
+      }
 
       const orderInfo = {
         ...(userId && { userId }),
@@ -79,12 +84,8 @@ orderRouter.put(
         ...(deliveryState !== undefined && { deliveryState }),
       };
 
-
-      const updateOrderInfo = await orderService.updateOrder(
-        userId,
-        toUpdate
-      );
-        res.status(200).json(updateOrderInfo);
+      const updateOrderInfo = await orderService.updateOrder(userId, toUpdate);
+      res.status(200).json(updateOrderInfo);
     } catch (error) {
       next(error);
     }
@@ -115,18 +116,18 @@ orderRouter.delete(
 );
 // 주문 한개 삭제
 orderRouter.delete(
-    '/:userId/:_id',
-    userMiddleware.loginRequired,
-    async (req, res, next) => {
-        try {
-            const orderId = req.params._id;
+  '/:userId/:_id',
+  userMiddleware.loginRequired,
+  async (req, res, next) => {
+    try {
+      const orderId = req.params._id;
 
-            const deleteResult = await orderService.deleteOrderOne(orderId);
-            res.status(200).json(deleteResult);
-        } catch (error) {
-            next(error);
-        }
+      const deleteResult = await orderService.deleteOrderOne(orderId);
+      res.status(200).json(deleteResult);
+    } catch (error) {
+      next(error);
     }
+  }
 );
 
 module.exports = orderRouter;

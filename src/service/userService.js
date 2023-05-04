@@ -66,9 +66,8 @@ class userService {
     // 로그인 성공 -> JWT 웹 토큰 생성
     const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
 
-
     const token = jwt.sign({ userId: user._id }, secretKey);
-    return {token,userId };
+    return { token, userId };
   }
 
   // 사용자 정보 조회
@@ -86,10 +85,6 @@ class userService {
 
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
   async setUser(userId, toUpdate) {
-    // 객체 destructuring
-   //  const { userId, currentPassword } = userInfoRequired;
-    // const { userId } = userInfoRequired;
-    // 우선 해당 id의 유저가 db에 있는지 확인
     let user = await userDAO.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
@@ -133,7 +128,6 @@ class userService {
 
   // 유저정보 삭제, 현재 비밀번호가 있어야 수정 가능함.
   async deleteUser(userId) {
-
     const user = await userDAO.findById(userId);
 
     if (!user) {

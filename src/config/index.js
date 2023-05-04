@@ -1,4 +1,4 @@
-const dotenv = require('dotenv'); //?
+const dotenv = require('dotenv');
 const AppError = require('../misc/AppError');
 const commonErrors = require('../misc/commonErrors');
 
@@ -27,9 +27,6 @@ if (process.env.MONGODB_URI === undefined) {
 }
 
 module.exports = {
-  // applicationName: process.env.APPLICATION_NAME ?? "app", // 어플리케이션 이름
-
-  port: parseInt(process.env.PORT ?? '3000', 10), // 어플리케이션이 바인딩되는 포트
-
-  mongoDBUri: process.env.MONGODB_URI, // mongoDB 연결 주소
+  port: parseInt(process.env.PORT ?? '3000', 10),
+  mongoDBUri: process.env.MONGODB_URI,
 };
