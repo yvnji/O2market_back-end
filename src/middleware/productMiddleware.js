@@ -1,6 +1,6 @@
 const AppError = require('../misc/AppError');
 const commonErrors = require('../misc/commonErrors');
-const { productsJoiSchema } = require('../data-access/joiSchemas');
+const { productsJoiSchema } = require('./joiSchemas');
 
 // 상품 검증
 function validateProduct(req, res, next) {
